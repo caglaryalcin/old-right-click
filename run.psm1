@@ -181,7 +181,7 @@ Priority
 
             # Restart Windows Explorer
             taskkill /f /im explorer.exe *>$null
-            Start-Sleep 1
+            Start-Sleep 2
             Start-Process "explorer.exe" -ErrorAction Stop
     
             Write-Host "[DONE]" -ForegroundColor Green -BackgroundColor Black
