@@ -162,6 +162,8 @@ Priority
                 ##
             }
 
+            New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
+            
             # Add to "Boot to UEFI Firmware Settings"
             New-Item -Path "HKCR:\DesktopBackground\Shell\Firmware" -Force | Out-Null
             Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware" -Name "Icon" -Value "bootux.dll,-1016"
