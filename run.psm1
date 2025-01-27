@@ -1,9 +1,17 @@
+Function Priority {
+    $ErrorActionPreference = 'SilentlyContinue'
+    New-PSDrive -PSProvider Registry -Name HKCU -Root HKEY_CURRENT_USER | Out-Null
+    New-PSDrive -PSProvider Registry -Name HKLM -Root HKEY_LOCAL_MACHINE | Out-Null
+    New-PSDrive -PSProvider Registry -Name HKU -Root HKEY_USERS | Out-Null
+    New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
+}
+
+Priority
+
 # The function is here because programs add themselves to the right click menu after loading
     Function RightClickMenu {
         try {
             Write-Host "Editing the right click menu..." -NoNewline
-            # New PS Drives
-            New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
     
             # Old right click menu
             $regPath = "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
