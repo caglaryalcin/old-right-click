@@ -94,7 +94,7 @@ Priority
     
             $tempOut = [System.IO.Path]::GetTempFileName()
             $tempErr = [System.IO.Path]::GetTempFileName()
-            Start-Process cmd.exe -ArgumentList '/c', 'reg add "HKEY_CLASSES_ROOT\*\shell\hash\shell\02menu\command" /ve /d "powershell -noexit get-filehash -literalpath \"%1\" -algorithm SHA256 | format-list" /f' -NoNewWindow -RedirectStandardOutput $tempOut -RedirectStandardError $tempErr
+            Start-Process cmd.exe -ArgumentList '/c reg add "HKEY_CLASSES_ROOT\*\shell\hash\shell\02menu\command" /ve /d "powershell -noexit get-filehash -literalpath \"%1\" -algorithm SHA256 | format-list" /f' -NoNewWindow -RedirectStandardOutput $tempOut -RedirectStandardError $tempErr
             Remove-Item $tempOut -ErrorAction Ignore
             Remove-Item $tempErr -ErrorAction Ignore
     
