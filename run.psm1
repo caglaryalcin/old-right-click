@@ -109,28 +109,9 @@ Priority
             Remove-Item $tempErr -ErrorAction Ignore
     
             # Add Turn Off Display Menu
-            $turnOffDisplay = "HKEY_CLASSES_ROOT\DesktopBackground\Shell\TurnOffDisplay"
-            reg add $turnOffDisplay /f *>$null
-            reg add $turnOffDisplay /v "Icon" /t REG_SZ /d "imageres.dll,-109" /f *>$null
-            reg add $turnOffDisplay /v "MUIVerb" /t REG_SZ /d "Turn off display" /f *>$null
-            reg add $turnOffDisplay /v "Position" /t REG_SZ /d "Bottom" /f *>$null
-            reg add $turnOffDisplay /v "SubCommands" /t REG_SZ /d """" /f *>$null
-    
-            reg add "$turnOffDisplay\shell" /f *>$null
-            $turnOffMenu1 = "$turnOffDisplay\shell\01menu"
-            reg add $turnOffMenu1 /f *>$null
-            reg add $turnOffMenu1 /v "Icon" /t REG_SZ /d "powercpl.dll,-513" /f *>$null
-            reg add $turnOffMenu1 /v "MUIVerb" /t REG_SZ /d "Turn off display" /f *>$null
-            reg add "$turnOffMenu1\command" /f *>$null
-            reg add "$turnOffMenu1\command" /ve /d 'cmd /c "powershell.exe -Command \"(Add-Type ''[DllImport(\\\"user32.dll\\\")]public static extern int SendMessage(int hWnd,int hMsg,int wParam,int lParam);'' -Name a -Pas)::SendMessage(-1,0x0112,0xF170,2)\""' /f *>$null
-    
-            $turnOffMenu2 = "$turnOffDisplay\shell\02menu"
-            reg add $turnOffMenu2 /f *>$null
-            reg add $turnOffMenu2 /v "MUIVerb" /t REG_SZ /d "Lock computer and Turn off display" /f *>$null
-            reg add $turnOffMenu2 /v "CommandFlags" /t REG_DWORD /d 0x20 /f *>$null
-            reg add $turnOffMenu2 /v "Icon" /t REG_SZ /d "imageres.dll,-59" /f *>$null
-            reg add "$turnOffMenu2\command" /f *>$null
-            reg add "$turnOffMenu2\command" /ve /d 'cmd /c "powershell.exe -Command \"(Add-Type ''[DllImport(\\\"user32.dll\\\")]public static extern int SendMessage(int hWnd,int hMsg,int wParam,int lParam);'' -Name a -Pas)::SendMessage(-1,0x0112,0xF170,2)\" & rundll32.exe user32.dll, LockWorkStation"' /f *>$null
+            curl -o "$env:USERPROFILE\Desktop\turn_off_button.reg" https://raw.githubusercontent.com/caglaryalcin/old-right-click/refs/heads/main/turn_off_button.reg
+            reg import "$env:USERPROFILE\Desktop\turn_off_button.reg"
+            Remove-Item "$env:USERPROFILE\Desktop\turn_off_button.reg" -Recurse -ErrorAction Stop
 
             # Add "Find Empty Folders"
             $command = 'powershell.exe -NoExit -Command "Get-ChildItem -Path ''%V'' -Directory -Recurse | Where-Object { $_.GetFileSystemInfos().Count -eq 0 } | ForEach-Object { $_.FullName }"'
