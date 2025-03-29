@@ -9,168 +9,175 @@ Function Priority {
 Priority
 
 # The function is here because programs add themselves to the right click menu after loading
-    Function RightClickMenu {
-        try {
-            Write-Host "Editing the right click menu..." -NoNewline
+Function RightClickMenu {
+    try {
+        Write-Host "Editing the right click menu..." -NoNewline
     
-            # Old right click menu
-            $regPath = "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
-            reg.exe add $regPath /f /ve *>$null
+        # Old right click menu
+        $regPath = "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
+        reg.exe add $regPath /f /ve *>$null
     
-            $contextMenuPaths = @(
-                "HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\SendTo", #remove send to
-                "HKEY_CLASSES_ROOT\UserLibraryFolder\shellex\ContextMenuHandlers\SendTo", #remove send to
-                "HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\ModernSharing", #remove share
-                "HKEY_CLASSES_ROOT\*\shell\pintohomefile", #remove favorites
-                #remove give access
-                "HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\Sharing",
-                "HKEY_CLASSES_ROOT\Directory\Background\shellex\ContextMenuHandlers\Sharing",
-                "HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\Sharing",
-                "HKEY_CLASSES_ROOT\Drive\shellex\ContextMenuHandlers\Sharing",
-                "HKEY_CLASSES_ROOT\LibraryFolder\background\shellex\ContextMenuHandlers\Sharing",
-                "HKEY_CLASSES_ROOT\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing",
-                #remove previous
-                "HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}",
-                "HKEY_CLASSES_ROOT\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}",
-                "HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}",
-                "HKEY_CLASSES_ROOT\Drive\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}",
-                #remove "Include in library"
-                "HKEY_CLASSES_ROOT\Folder\ShellEx\ContextMenuHandlers\Library Location",
-                "HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location"
-                #remove "copy as path"
-                "HKEY_LOCAL_MACHINE\SOFTWARE\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu"
-                #remove git
-                "HKEY_CLASSES_ROOT\Directory\Background\shell\git_gui",
-                "HKEY_CLASSES_ROOT\Directory\Background\shell\git_shell",
-                #remove treesize
-                "HKEY_CLASSES_ROOT\Directory\Background\shell\TreeSize Free",
-                "HKEY_CLASSES_ROOT\Directory\Background\shell\VSCode"
-                #remove mpc player
-                "HKEY_CLASSES_ROOT\Directory\shell\mplayerc64.enqueue"
-                #remove sharex
-                "HKEY_CLASSES_ROOT\Directory\shell\ShareX"
-                #remove vlc
-                "HKEY_CLASSES_ROOT\Directory\shell\AddToPlaylistVLC"
-                #remove google drive
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gcsedoc"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gcsesheet"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gcseslides"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gdoc"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gdraw"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gdrive"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gform"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gjam"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.glink"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gmaillayout"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gmap"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gnote"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gscript"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gsheet"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gsite"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gslides"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gtable"
-                "HKEY_CLASSES_ROOT\GoogleDriveFS.gvid"
-            )
+        $contextMenuPaths = @(
+            "HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\SendTo", #remove send to
+            "HKEY_CLASSES_ROOT\UserLibraryFolder\shellex\ContextMenuHandlers\SendTo", #remove send to
+            "HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\ModernSharing", #remove share
+            "HKEY_CLASSES_ROOT\*\shell\pintohomefile", #remove favorites
+            #remove give access
+            "HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\Sharing",
+            "HKEY_CLASSES_ROOT\Directory\Background\shellex\ContextMenuHandlers\Sharing",
+            "HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\Sharing",
+            "HKEY_CLASSES_ROOT\Drive\shellex\ContextMenuHandlers\Sharing",
+            "HKEY_CLASSES_ROOT\LibraryFolder\background\shellex\ContextMenuHandlers\Sharing",
+            "HKEY_CLASSES_ROOT\UserLibraryFolder\shellex\ContextMenuHandlers\Sharing",
+            #remove previous
+            "HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}",
+            "HKEY_CLASSES_ROOT\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}",
+            "HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}",
+            "HKEY_CLASSES_ROOT\Drive\shellex\ContextMenuHandlers\{596AB062-B4D2-4215-9F74-E9109B0A8153}",
+            #remove "Include in library"
+            "HKEY_CLASSES_ROOT\Folder\ShellEx\ContextMenuHandlers\Library Location",
+            "HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Folder\ShellEx\ContextMenuHandlers\Library Location"
+            #remove "copy as path"
+            "HKEY_LOCAL_MACHINE\SOFTWARE\Classes\AllFilesystemObjects\shellex\ContextMenuHandlers\CopyAsPathMenu"
+            #remove git
+            "HKEY_CLASSES_ROOT\Directory\Background\shell\git_gui",
+            "HKEY_CLASSES_ROOT\Directory\Background\shell\git_shell",
+            #remove treesize
+            "HKEY_CLASSES_ROOT\Directory\Background\shell\TreeSize Free",
+            "HKEY_CLASSES_ROOT\Directory\Background\shell\VSCode"
+            #remove mpc player
+            "HKEY_CLASSES_ROOT\Directory\shell\mplayerc64.enqueue"
+            #remove sharex
+            "HKEY_CLASSES_ROOT\Directory\shell\ShareX"
+            #remove vlc
+            "HKEY_CLASSES_ROOT\Directory\shell\AddToPlaylistVLC"
+            #remove google drive
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gcsedoc"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gcsesheet"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gcseslides"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gdoc"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gdraw"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gdrive"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gform"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gjam"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.glink"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gmaillayout"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gmap"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gnote"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gscript"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gsheet"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gsite"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gslides"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gtable"
+            "HKEY_CLASSES_ROOT\GoogleDriveFS.gvid"
+        )
 
-            foreach ($path in $contextMenuPaths) {
-                $regPath = $path -replace 'HKCR:\\', 'HKEY_CLASSES_ROOT\' 
-                $cmd = "reg delete `"$regPath`" /f"
-                Invoke-Expression $cmd *>$null
-            }
+        foreach ($path in $contextMenuPaths) {
+            $regPath = $path -replace 'HKCR:\\', 'HKEY_CLASSES_ROOT\' 
+            $cmd = "reg delete `"$regPath`" /f"
+            Invoke-Expression $cmd *>$null
+        }
     
-            # New hash menu for right click
-            $regpath = "HKEY_CLASSES_ROOT\*\shell\hash"
-            $sha256menu = "HKEY_CLASSES_ROOT\*\shell\hash\shell\02menu"
-            $md5menu = "HKEY_CLASSES_ROOT\*\shell\hash\shell\03menu"
+        # New hash menu for right click
+        $regpath = "HKEY_CLASSES_ROOT\*\shell\hash"
+        $sha256menu = "HKEY_CLASSES_ROOT\*\shell\hash\shell\02menu"
+        $md5menu = "HKEY_CLASSES_ROOT\*\shell\hash\shell\03menu"
     
-            reg add $regpath /f *>$null
-            reg add $regpath /v "MUIVerb" /t REG_SZ /d HASH /f *>$null
-            reg add $regpath /v "SubCommands" /t REG_SZ /d """" /f *>$null
-            reg add "$regpath\shell" /f *>$null
+        reg add $regpath /f *>$null
+        reg add $regpath /v "MUIVerb" /t REG_SZ /d HASH /f *>$null
+        reg add $regpath /v "SubCommands" /t REG_SZ /d """" /f *>$null
+        reg add "$regpath\shell" /f *>$null
     
-            reg add "$sha256menu" /f *>$null
-            reg add "$sha256menu\command" /f *>$null
-            reg add "$sha256menu" /v "MUIVerb" /t REG_SZ /d SHA256 /f *>$null
+        reg add "$sha256menu" /f *>$null
+        reg add "$sha256menu\command" /f *>$null
+        reg add "$sha256menu" /v "MUIVerb" /t REG_SZ /d SHA256 /f *>$null
     
-            $tempOut = [System.IO.Path]::GetTempFileName()
-            $tempErr = [System.IO.Path]::GetTempFileName()
-            Start-Process cmd.exe -ArgumentList '/c reg add "HKEY_CLASSES_ROOT\*\shell\hash\shell\02menu\command" /ve /d "powershell -noexit get-filehash -literalpath \"%1\" -algorithm SHA256 | format-list" /f' -NoNewWindow -RedirectStandardOutput $tempOut -RedirectStandardError $tempErr
-            Remove-Item $tempOut -ErrorAction Ignore
-            Remove-Item $tempErr -ErrorAction Ignore
+        $tempOut = [System.IO.Path]::GetTempFileName()
+        $tempErr = [System.IO.Path]::GetTempFileName()
+        Start-Process cmd.exe -ArgumentList '/c reg add "HKEY_CLASSES_ROOT\*\shell\hash\shell\02menu\command" /ve /d "powershell -noexit get-filehash -literalpath \"%1\" -algorithm SHA256 | format-list" /f' -NoNewWindow -RedirectStandardOutput $tempOut -RedirectStandardError $tempErr
+        Remove-Item $tempOut -ErrorAction Ignore
+        Remove-Item $tempErr -ErrorAction Ignore
     
-            reg add "$md5menu" /f *>$null
-            reg add "$md5menu\command" /f *>$null
-            reg add "$md5menu" /v "MUIVerb" /t REG_SZ /d MD5 /f *>$null
+        reg add "$md5menu" /f *>$null
+        reg add "$md5menu\command" /f *>$null
+        reg add "$md5menu" /v "MUIVerb" /t REG_SZ /d MD5 /f *>$null
     
-            $tempOut = [System.IO.Path]::GetTempFileName()
-            $tempErr = [System.IO.Path]::GetTempFileName()
-            Start-Process cmd.exe -ArgumentList '/c', 'reg add "HKEY_CLASSES_ROOT\*\shell\hash\shell\03menu\command" /ve /d "powershell -noexit get-filehash -literalpath \"%1\" -algorithm MD5 | format-list" /f' -NoNewWindow -RedirectStandardOutput $tempOut -RedirectStandardError $tempErr
-            Remove-Item $tempOut -ErrorAction Ignore
-            Remove-Item $tempErr -ErrorAction Ignore
+        $tempOut = [System.IO.Path]::GetTempFileName()
+        $tempErr = [System.IO.Path]::GetTempFileName()
+        Start-Process cmd.exe -ArgumentList '/c', 'reg add "HKEY_CLASSES_ROOT\*\shell\hash\shell\03menu\command" /ve /d "powershell -noexit get-filehash -literalpath \"%1\" -algorithm MD5 | format-list" /f' -NoNewWindow -RedirectStandardOutput $tempOut -RedirectStandardError $tempErr
+        Remove-Item $tempOut -ErrorAction Ignore
+        Remove-Item $tempErr -ErrorAction Ignore
     
-            # Add Turn Off Display Menu
-            curl -o "$env:USERPROFILE\Desktop\turn_off_button.reg" https://raw.githubusercontent.com/caglaryalcin/old-right-click/refs/heads/main/turn_off_button.reg
-            reg import "$env:USERPROFILE\Desktop\turn_off_button.reg"
-            Remove-Item "$env:USERPROFILE\Desktop\turn_off_button.reg" -Recurse -ErrorAction Stop
+        # Add Turn Off Display Menu
+        curl -o "$env:USERPROFILE\Desktop\turn_off_button.reg" https://raw.githubusercontent.com/caglaryalcin/old-right-click/refs/heads/main/turn_off_button.reg
+        reg import "$env:USERPROFILE\Desktop\turn_off_button.reg"
+        Remove-Item "$env:USERPROFILE\Desktop\turn_off_button.reg" -Recurse -ErrorAction Stop
 
-            # Add "Find Empty Folders"
-            $command = 'powershell.exe -NoExit -Command "Get-ChildItem -Path ''%V'' -Directory -Recurse | Where-Object { $_.GetFileSystemInfos().Count -eq 0 } | ForEach-Object { $_.FullName }"'
+        # Add "Find Empty Folders"
+        $paths = @(
+            "Registry::HKEY_CLASSES_ROOT\Directory\shell\FindEmptyFolders",
+            "Registry::HKEY_CLASSES_ROOT\Directory\shell\FindEmptyFolders\command",
+            "Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\FindEmptyFolders",
+            "Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\FindEmptyFolders\command",
+            "Registry::HKEY_CLASSES_ROOT\Drive\shell\FindEmptyFolders",
+            "Registry::HKEY_CLASSES_ROOT\Drive\shell\FindEmptyFolders\command"
+        )
 
-            $rightclickregpath = @(
-                "Registry::HKEY_CLASSES_ROOT\Directory\shell\FindEmptyFolders",
-                "Registry::HKEY_CLASSES_ROOT\Directory\shell\FindEmptyFolders\command",
-                "Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\FindEmptyFolders",
-                "Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\FindEmptyFolders\command",
-                "Registry::HKEY_CLASSES_ROOT\Drive\shell\FindEmptyFolders",
-                "Registry::HKEY_CLASSES_ROOT\Drive\shell\FindEmptyFolders\command"
-            )
+        $icon = "imageres.dll,-1025"
+        $defaultValue = "Find Empty Folders"
+        $command = 'powershell.exe -NoExit -Command "Get-ChildItem -Path ''%V'' -Directory -Recurse | Where-Object { $_.GetFileSystemInfos().Count -eq 0 } | ForEach-Object { $_.FullName }"'
 
-            $icon = "imageres.dll,-1025"
-            $defaultValue = "Find Empty Folders"
-
-            $rightclickregpath | ForEach-Object {
+        $paths | ForEach-Object {
+            if (-not (Test-Path $_)) {
                 New-Item -Path $_ -Force | Out-Null
+            }
+
+            if ($_ -like '*command') {
+                Set-ItemProperty -Path $_ -Name "(Default)" -Value $command
+            }
+            else {
                 Set-ItemProperty -Path $_ -Name "(Default)" -Value $defaultValue
                 Set-ItemProperty -Path $_ -Name "Icon" -Value $icon
             }
+        }
             
-            # Add blocked keys
-            $blockedkeyPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked"
-            if (-not (Test-Path -Path $blockedkeyPath)) {
-                New-Item -Path $blockedkeyPath -Force | Out-Null
-            }
-            else {
-                ##
-            }
+        # Add blocked keys
+        $blockedkeyPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked"
+        if (-not (Test-Path -Path $blockedkeyPath)) {
+            New-Item -Path $blockedkeyPath -Force | Out-Null
+        }
+        else {
+            ##
+        }
 
-            New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
+        New-PSDrive -Name "HKCR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Out-Null
             
-            # Add to "Boot to UEFI Firmware Settings"
-            New-Item -Path "HKCR:\DesktopBackground\Shell\Firmware" -Force | Out-Null
-            Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware" -Name "Icon" -Value "bootux.dll,-1016"
-            Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware" -Name "MUIVerb" -Value "Boot to UEFI Firmware Settings"
-            Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware" -Name "Position" -Value "Top"
+        # Add to "Boot to UEFI Firmware Settings"
+        New-Item -Path "HKCR:\DesktopBackground\Shell\Firmware" -Force | Out-Null
+        Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware" -Name "Icon" -Value "bootux.dll,-1016"
+        Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware" -Name "MUIVerb" -Value "Boot to UEFI Firmware Settings"
+        Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware" -Name "Position" -Value "Top"
         
-            New-Item -Path "HKCR:\DesktopBackground\Shell\Firmware\command" -Force | Out-Null
-            Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware\command" -Name "(default)" -Value "powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/s,/c,shutdown /r /fw' -Verb runAs\""
+        New-Item -Path "HKCR:\DesktopBackground\Shell\Firmware\command" -Force | Out-Null
+        Set-ItemProperty -Path "HKCR:\DesktopBackground\Shell\Firmware\command" -Name "(default)" -Value "powershell -windowstyle hidden -command \"Start-Process cmd -ArgumentList '/s,/c,shutdown /r /fw' -Verb runAs\""
 
-            # Remove "Edit in Notepad"
-            Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" -Name "{CA6CC9F1-867A-481E-951E-A28C5E4F01EA}" -Value "Edit in Notepad"
+        # Remove "Edit in Notepad"
+        Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" -Name "{CA6CC9F1-867A-481E-951E-A28C5E4F01EA}" -Value "Edit in Notepad"
 
-            # Remove "Cast to Device"
-            Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" -Name "{7AD84985-87B4-4a16-BE58-8B72A5B390F7}" -Value "Play to Menu"
+        # Remove "Cast to Device"
+        Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked" -Name "{7AD84985-87B4-4a16-BE58-8B72A5B390F7}" -Value "Play to Menu"
 
-            # Restart Windows Explorer
-            taskkill /f /im explorer.exe *>$null
-            Start-Sleep 2
-            Start-Process "explorer.exe" -ErrorAction Stop
+        # Restart Windows Explorer
+        taskkill /f /im explorer.exe *>$null
+        Start-Sleep 2
+        Start-Process "explorer.exe" -ErrorAction Stop
     
-            Write-Host "[DONE]" -ForegroundColor Green -BackgroundColor Black
-        }
-    
-        catch {
-            Write-Host "[WARNING] $_" -ForegroundColor Red -BackgroundColor Black
-        }
+        Write-Host "[DONE]" -ForegroundColor Green -BackgroundColor Black
     }
     
-    RightClickMenu
+    catch {
+        Write-Host "[WARNING] $_" -ForegroundColor Red -BackgroundColor Black
+    }
+}
+    
+RightClickMenu
